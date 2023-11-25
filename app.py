@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, jsonify
+import requests
 
 app = Flask(__name__)
 
@@ -28,7 +29,7 @@ def index():
             response.raise_for_status()  # Raises an HTTPError for bad responses (4xx or 5xx)
             translation = response.json().get('responseData', {}).get('translatedText', '')
         except requests.RequestException as e:
-            # Log the exception for debugging
+            # Log the complete exception for debugging
             app.logger.exception("Error in MyMemory Translation API request:")
             # Return a JSON response with an error message
             return jsonify(error=f"An error occurred in translation: {str(e)}"), 500
